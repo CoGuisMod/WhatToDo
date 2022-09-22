@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 /* Context import */
 import { UserAuth } from "../../context/AuthContext";
+
+/* Message card import */
+import MessageCard from "../../components/MessageCard";
 
 /* Style import */
 import "./style.css";
@@ -11,29 +14,57 @@ const LogIn = () => {
   /* Context data */
   const { logIn } = UserAuth();
 
+  const navigate = useNavigate();
+
   /* Log in data */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  /* Message data */
+  const [message, setMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
 
     if (email === "") {
-      console.log("Debe ingresar el email.");
+      setMessage("Debe ingresar el email.");
       return;
     }
     if (password === "") {
-      console.log("Debe ingresar la contraseña.");
+      setMessage("Debe ingresar la contraseña.");
       return;
     }
 
-    await logIn(email, password);
-    setEmail("");
-    setPassword("");
+    try {
+      await logIn(email, password);
+
+      setEmail("");
+      setPassword("");
+
+      navigate("/workspace");
+    } catch (e) {
+      setMessage(e.message);
+      if (e.message === "Firebase: Error (auth/user-not-found).") {
+        setMessage("The email doesn't exist.");
+      }
+      if (e.message === "Firebase: Error (auth/wrong-password).") {
+        setMessage("The password is incorrect.");
+      }
+    }
   };
+
+  useEffect(() => {
+    if (message !== "") {
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
+    }
+  }, [message]);
 
   return (
     <section className="flex justify-center items-center w-full h-screen">
+      <MessageCard message={message} />
       <div className="flex flex-col ">
         <h1 className="text-2xl mx-auto mb-8">
           Sign in to{" "}

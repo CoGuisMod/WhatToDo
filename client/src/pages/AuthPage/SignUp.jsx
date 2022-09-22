@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 /* Context import */
 import { UserAuth } from "../../context/AuthContext";
+
+/* Message card import */
+import MessageCard from "../../components/MessageCard";
 
 /* Style import */
 import "./style.css";
@@ -11,27 +14,64 @@ const SignUp = () => {
   /* Context data */
   const { signUp } = UserAuth();
 
+  const navigate = useNavigate();
+
   /* Log in data */
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  /* Message card data */
+  const [message, setMessage] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
 
+    if (email === "") {
+      setMessage("The email is required.");
+      return;
+    }
+    if (password === "") {
+      setMessage("The password is required.");
+      return;
+    }
+    if (password.length < 6) {
+      setMessage("The password should be at least 6 characters.");
+      return;
+    }
     if (password !== confirmPassword) {
-      console.log("Password is incorrect.");
+      setMessage("Password is incorrect.");
       return;
     }
 
-    await signUp(email, password);
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    try {
+      await signUp(email, password);
+
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+
+      navigate("/workspace");
+    } catch (e) {
+      setMessage(e.message);
+      if (e.message === "Firebase: Error (auth/email-already-in-use).") {
+        setMessage("The email already exist.");
+      }
+    }
   };
+
+  useEffect(() => {
+    if (message !== "") {
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
+    }
+  }, [message]);
 
   return (
     <section className="flex justify-center items-center w-full h-screen">
+      <MessageCard message={message} />
       <div className="flex flex-col ">
         <h1 className="text-2xl mx-auto mb-8">
           Register to{" "}
