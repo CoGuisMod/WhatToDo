@@ -10,7 +10,7 @@ import HeroImg from "../../assets/hero.png";
 const index = () => {
   return (
     <section className="max-w-7xl w-full h-screen mx-auto pt-24 px-8">
-      <div className="flex">
+      <div className="flex flex-col md:flex-row gap-y-16">
         <div className="grow max-w-xl pr-8">
           <h1 className="font-medium text-4xl mb-4">
             The application that helps you organize and plan{" "}

@@ -41,7 +41,7 @@ const SignUp = () => {
       return;
     }
     if (password !== confirmPassword) {
-      setMessage("Password is incorrect.");
+      setMessage("Passwords do not match.");
       return;
     }
 

@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-/* Context import */
+/* Context imports */
 import { UserAuth } from "../../context/AuthContext";
 
 /* Style import */
 import "./style.css";
 
 const index = () => {
-  const { user, logOut } = UserAuth();
+  const { logOut, user } = UserAuth();
 
   const handleLogOut = async () => {
     await logOut();
@@ -22,8 +22,16 @@ const index = () => {
           <span className="brand-two">To</span>Do
           <span className="brand-three">?</span>
         </Link>
-        {user ? (
-          <span onClick={handleLogOut}>Salir</span>
+
+        {user !== null ? (
+          <div className="flex items-center gap-4 font-medium">
+            <Link to="/workspace" className="header_nav-link-normal">
+              Workspace
+            </Link>
+            <button onClick={handleLogOut} className="header_nav-link-styled">
+              Log out
+            </button>
+          </div>
         ) : (
           <div className="flex items-center gap-4 font-medium">
             <Link to="/login" className="header_nav-link-normal">

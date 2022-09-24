@@ -6,17 +6,20 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 const AuthContext = createContext();
 
 export function AuthContextProvider({ children }) {
+  /* User auth data */
   const [user, setUser] = useState(null);
 
+  /* Auth functions */
   const signUp = async (email, password) => {
     await createUserWithEmailAndPassword(firebaseAuth, email, password);
-    setDoc(doc(firebaseFirestore, "users", email), {
-      bookmarks: [],
+    await addDoc(collection(firebaseFirestore, "users", email, "items"), {
+      completed: false,
+      content: "Learn react js.",
     });
   };
 
