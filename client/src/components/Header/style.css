@@ -1,7 +1,0 @@
-.header_nav-link-styled {
-  @apply bg-slate-50 hover:bg-slate-50/90 rounded-lg text-slate-900 px-2 py-1;
-}
-
-.header_nav-link-normal {
-  @apply hover:text-purple-300;
-}

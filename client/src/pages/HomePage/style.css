@@ -1,7 +1,0 @@
-.home_button {
-  @apply rounded-xl bg-purple-300 hover:bg-purple-400 font-medium text-slate-900 px-2 py-1;
-}
-
-.home_hero-shadow {
-  box-shadow: 0 0 1rem #cbd5e1;
-}

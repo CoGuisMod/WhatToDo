@@ -1,7 +1,0 @@
-.auth-form_input {
-  @apply rounded-xl text-slate-900 mb-4 px-2 py-1;
-}
-
-.auth-form_button {
-  @apply rounded-xl bg-purple-300 hover:bg-purple-400 font-medium text-slate-900 px-2 py-1;
-}
