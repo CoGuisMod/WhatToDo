@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import Logo from "../../components/Logo";
 
-import Style from "./Login.module.css";
+import Style from "./Signup.module.css";
 
 const index = () => {
   const handleSubmit = () => {};
@@ -15,23 +15,32 @@ const index = () => {
           Register to <Logo />
         </h2>
         <form onSubmit={handleSubmit} className={Style.form_container}>
+          <div className={Style.form_container_sub}>
+            <label>First name</label>
+            <label>Last name</label>
+            <input type="text" className={Style.form_input} />
+            <input type="text" className={Style.form_input} />
+          </div>
+          <div className={Style.divider} />
           <label>Email</label>
           <input type="email" className={Style.form_input} />
           <div className={Style.divider} />
           <label>Password</label>
           <input type="password" className={Style.form_input} />
-
+          <div className={Style.divider} />
+          <label>Confirm password</label>
+          <input type="password" className={Style.form_input} />
           <div className={Style.divider_two} />
           <button className={Style.form_button}>Sign up</button>
         </form>
-        <p className={Style.dha_text}>
-          Don't have an account?{" "}
-          <Link href="/signup">
-            <span className={Style.dha_link}>Register here!</span>
+        <p className={Style.aha_text}>
+          Already have an account?{" "}
+          <Link href="/login">
+            <span className={Style.aha_link}>Sign in here!</span>
           </Link>
         </p>
       </div>
-      <div className="text-center text-slate-50/50 mt-16">
+      <div className="text-center text-slate-50/50 mt-16 mb-4">
         <p>If you only want to test the application user the next account.</p>
         <p className="mt-4">
           email:{" "}

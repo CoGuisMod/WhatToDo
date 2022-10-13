@@ -1,0 +1,43 @@
+.container_main {
+  @apply mx-8 md:mx-16 mt-10 pt-8;
+}
+
+.container_sub {
+  @apply max-w-xs mx-auto;
+}
+
+.title {
+  @apply text-center text-2xl;
+}
+
+.form_container {
+  @apply grid border border-slate-50/10 rounded-3xl mt-8 p-4;
+}
+
+.form_container_sub {
+  @apply grid grid-cols-2 gap-x-4;
+}
+
+.divider {
+  @apply py-2;
+}
+
+.form_input {
+  @apply rounded-lg w-full;
+}
+
+.divider_two {
+  @apply py-4;
+}
+
+.form_button {
+  @apply bg-purple-300 hover:bg-purple-400 rounded-lg text-slate-900 px-2 py-1 transition-colors duration-200 ease-in-out;
+}
+
+.dha_text {
+  @apply text-slate-50/50 mt-4;
+}
+
+.dha_link {
+  @apply text-slate-50;
+}
