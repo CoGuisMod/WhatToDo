@@ -31,7 +31,7 @@ const index = () => {
           </Link>
         </p>
       </div>
-      <div className="text-center text-slate-50/50 mt-16">
+      <div className="text-center text-slate-50/50 mt-auto mb-4">
         <p>If you only want to test the application user the next account.</p>
         <p className="mt-4">
           email:{" "}

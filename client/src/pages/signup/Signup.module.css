@@ -1,5 +1,5 @@
 .container_main {
-  @apply mx-8 md:mx-16 mt-10 pt-8;
+  @apply flex flex-col min-h-screen px-8 md:px-16 pt-16;
 }
 
 .container_sub {
