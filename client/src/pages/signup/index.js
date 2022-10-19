@@ -14,6 +14,7 @@ const index = () => {
         <h2 className={Style.title}>
           Register to <Logo />
         </h2>
+
         <form onSubmit={handleSubmit} className={Style.form_container}>
           <div className={Style.form_container_sub}>
             <label>First name</label>
@@ -40,6 +41,9 @@ const index = () => {
           </Link>
         </p>
       </div>
+
+      <div className="py-8" />
+
       <div className="text-center text-slate-50/50 mt-auto mb-4">
         <p>If you only want to test the application user the next account.</p>
         <p className="mt-4">

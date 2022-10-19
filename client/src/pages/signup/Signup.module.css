@@ -23,7 +23,7 @@
 }
 
 .form_input {
-  @apply rounded-lg w-full;
+  @apply rounded-lg text-slate-900 w-full px-2 py-1;
 }
 
 .divider_two {

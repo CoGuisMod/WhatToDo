@@ -16,7 +16,7 @@ const index = () => {
       </Head>
 
       <main className="px-8 md:px-16 pt-16">
-        <section className="flex flex-col md:flex-row gap-8 max-w-7xl mx-auto">
+        <section className="flex flex-col md:flex-row gap-x-8 gap-y-10 max-w-7xl mx-auto">
           <div className="w-full max-w-lg">
             <h1 className=" font-semibold text-3xl sm:text-4xl">
               The application that helps you organize and plan <Logo />
@@ -31,6 +31,7 @@ const index = () => {
               <span className="cta_button">Register now!</span>
             </Link>
           </div>
+
           <div className="grow rounded-3xl w-full overflow-hidden image-shadow">
             <Image src={HeroImg} />
           </div>
