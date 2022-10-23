@@ -1,0 +1,23 @@
+.column_container {
+  @apply border border-slate-50 rounded-xl w-80 overflow-hidden;
+}
+
+.column_title_container {
+  @apply bg-slate-50 text-center px-2 py-1;
+}
+
+.column_title_text {
+  @apply font-semibold text-slate-900;
+}
+
+.column_items_container {
+  @apply flex flex-col gap-y-3 h-full p-4;
+}
+
+.item_container {
+  @apply bg-slate-800 rounded-lg w-full px-2 py-1;
+}
+
+.item_text {
+  @apply text-slate-50;
+}

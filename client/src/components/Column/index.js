@@ -1,17 +1,25 @@
 import React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
+import Style from "./Column.module.css";
+
 const index = ({ columnData, itemsData }) => {
   return (
-    <div className="border border-slate-50">
-      <div className="bg-slate-50 text-slate-900">{columnData.title}</div>
+    <div className={Style.column_container}>
+      {/* Column title */}
+      <div className={Style.column_title_container}>
+        <span className={Style.column_title_text}>{columnData.title}</span>
+      </div>
+
+      {/* Droppable Column area */}
       <Droppable droppableId={columnData.id}>
         {(droppableProvided, droppableSnapshot) => (
           <div
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
-            className="flex flex-col gap-3 p-4"
+            className={Style.column_items_container}
           >
+            {/* Draggable items */}
             {itemsData.map((item, index) => (
               <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
                 {(draggableProvided, draggableSnapshot) => (
@@ -19,9 +27,9 @@ const index = ({ columnData, itemsData }) => {
                     ref={draggableProvided.innerRef}
                     {...draggableProvided.draggableProps}
                     {...draggableProvided.dragHandleProps}
-                    className="bg-slate-800"
+                    className={Style.item_container}
                   >
-                    <p>{item.content}</p>
+                    <p className={Style.item_text}>{item.content}</p>
                   </div>
                 )}
               </Draggable>

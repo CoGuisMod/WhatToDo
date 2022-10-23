@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { DragDropContext } from "react-beautiful-dnd";
+
+import { UserAuth } from "../../context/AuthContext";
+import { GeneralState } from "../../context/GeneralContext";
 
 const Column = dynamic(() => import("../../components/Column"), { ssr: false });
 
@@ -19,6 +22,10 @@ const reorderColumnList = (sourceCol, startIndex, endIndex) => {
 
 const index = () => {
   const [boardData, setBoardData] = useState(initialData);
+
+  /* Context functions */
+  const { user } = UserAuth();
+  const { getCurrentBoard, currentBoard } = GeneralState();
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
@@ -86,10 +93,23 @@ const index = () => {
     setBoardData(newData);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user) {
+        await getCurrentBoard(user);
+      }
+    };
+
+    fetchData().catch(console.error);
+
+    console.log(user);
+    console.log(currentBoard);
+  }, []);
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <section>
-        <div className="flex gap-4 px-8 md:px-16 pt-16">
+      <section className="w-full">
+        <div className="grid grid-flow-col gap-x-4 px-8 md:px-16 pt-16 w-full overflow-x-scroll">
           {boardData.columnOrder.map((columnId) => {
             const column = boardData.columns[columnId];
             const items = column.taskIds.map(
