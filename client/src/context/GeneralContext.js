@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { firebaseFirestore } from "../firebase/config";
 import {
   addDoc,
@@ -13,18 +13,18 @@ import {
 const GeneralContext = createContext();
 
 export const GeneralContextProvider = ({ children }) => {
-  const [boards, setBoards] = useState([]);
-  const [currentBoard, setCurrentBoard] = useState({});
+  const [boards, setBoards] = useState(null);
+  const [currentBoard, setCurrentBoard] = useState(null);
 
   const getCurrentBoard = async (user) => {
-    const docuRef = doc(firebaseFirestore, "users", user.email);
+    const docuRef = doc(firebaseFirestore, "users", user);
     const initialData = await getDoc(docuRef);
     const finalData = initialData.data();
     setCurrentBoard(finalData);
   };
 
   const updateBoard = async (user, boardData) => {
-    const docuRef = collection(firebaseFirestore, "users", user.email);
+    const docuRef = doc(firebaseFirestore, "users", user);
     await updateDoc(docuRef, {
       board_data: boardData,
     });

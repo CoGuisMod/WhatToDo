@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { UserAuth } from "../../context/AuthContext";
 
 import Logo from "../../components/Logo";
+import Message from "../../components/MessageCard";
 
 import Style from "./Signup.module.css";
 
@@ -16,6 +17,9 @@ const index = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  /* Message card data */
+  const [message, setMessage] = useState("");
+
   /* Context function */
   const { signUp } = UserAuth();
 
@@ -25,14 +29,55 @@ const index = () => {
   /* Submit function */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signUp(firstName, lastName, email, password);
 
-    router.push("/workspace");
+    /* Makes sure that all the fields have content */
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
+      setMessage("All the field are required.");
+      return;
+    }
+
+    /* Makes sure that the password is atleast 6 characters */
+    if (password.length < 6) {
+      setMessage("Password should have atleast 6 characters.");
+      return;
+    }
+
+    /* Makes sure that the passwords match */
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    /* Sends the info to firebase auth to create the user */
+    try {
+      await signUp(firstName, lastName, email, password);
+      router.push("/workspace");
+    } catch (e) {
+      setMessage(e.message);
+      if (e.message === "Firebase: Error (auth/email-already-in-use).") {
+        setMessage("The email already exist.");
+      }
+    }
   };
+
+  useEffect(() => {
+    if (message !== "") {
+      setTimeout(() => {
+        setMessage("");
+      }, "2500");
+    }
+  }, [message]);
 
   return (
     /* Main container code section */
     <section className={Style.container_main}>
+      {message ? <Message message={message} /> : null}
       <div className={Style.container_sub}>
         {/* Title code section */}
         <h2 className={Style.title}>

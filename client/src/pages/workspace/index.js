@@ -21,11 +21,11 @@ const reorderColumnList = (sourceCol, startIndex, endIndex) => {
 };
 
 const index = () => {
-  const [boardData, setBoardData] = useState(initialData);
+  const [boardData, setBoardData] = useState(null);
 
   /* Context functions */
   const { user } = UserAuth();
-  const { getCurrentBoard, currentBoard } = GeneralState();
+  const { getCurrentBoard, currentBoard, updateBoard } = GeneralState();
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
@@ -94,23 +94,32 @@ const index = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
-        await getCurrentBoard(user);
-      }
-    };
+    if (boardData !== null && boardData !== currentBoard.board_data) {
+      updateBoard(user.email, boardData);
+    }
+  }, [boardData]);
 
-    fetchData().catch(console.error);
+  useEffect(() => {
+    if (currentBoard !== null) {
+      setBoardData(currentBoard.board_data);
+    }
+  }, [currentBoard]);
 
-    console.log(user);
-    console.log(currentBoard);
-  }, []);
+  useEffect(() => {
+    if (user !== null) {
+      const fetchData = async () => {
+        await getCurrentBoard(user.email);
+      };
+
+      fetchData().catch(console.error);
+    }
+  }, [user]);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <section className="w-full">
         <div className="grid grid-flow-col gap-x-4 px-8 md:px-16 pt-16 w-full overflow-x-scroll">
-          {boardData.columnOrder.map((columnId) => {
+          {boardData?.columnOrder?.map((columnId) => {
             const column = boardData.columns[columnId];
             const items = column.taskIds.map(
               (taskId) => boardData.tasks[taskId]
@@ -124,36 +133,6 @@ const index = () => {
       </section>
     </DragDropContext>
   );
-};
-
-const initialData = {
-  tasks: {
-    1: { id: 1, content: "Configure Next.js application" },
-    2: { id: 2, content: "Configure Next.js and tailwind " },
-    3: { id: 3, content: "Create sidebar navigation menu" },
-    4: { id: 4, content: "Create page footer" },
-    5: { id: 5, content: "Create page navigation menu" },
-    6: { id: 6, content: "Create page layout" },
-  },
-  columns: {
-    "column-1": {
-      id: "column-1",
-      title: "TO-DO",
-      taskIds: [1, 2, 3, 4, 5, 6],
-    },
-    "column-2": {
-      id: "column-2",
-      title: "IN-PROGRESS",
-      taskIds: [],
-    },
-    "column-3": {
-      id: "column-3",
-      title: "COMPLETED",
-      taskIds: [],
-    },
-  },
-  // Facilitate reordering of the columns
-  columnOrder: ["column-1", "column-2", "column-3"],
 };
 
 export default index;
