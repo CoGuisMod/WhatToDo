@@ -35,7 +35,6 @@ export function AuthContextProvider({ children }) {
             taskIds: [1],
           },
         },
-        // Facilitate reordering of the columns
         columnOrder: ["column-1"],
       },
     });

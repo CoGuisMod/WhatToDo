@@ -1,0 +1,31 @@
+.container {
+  @apply pt-12 pb-4 overflow-hidden;
+}
+
+.sub_container {
+  @apply flex flex-col justify-start items-center border-r border-slate-50 h-full px-4 py-4;
+}
+
+.home_button {
+  @apply text-3xl;
+}
+
+.divider_one {
+  @apply border-t border-slate-50 w-full my-2;
+}
+
+.boards_icons_container {
+  @apply flex flex-col gap-y-2;
+}
+
+.board_icon {
+  @apply bg-slate-800 rounded-lg flex justify-center items-center w-full px-2 py-1 cursor-pointer;
+}
+
+.divider_two {
+  @apply w-full my-1;
+}
+
+.add_button {
+  @apply text-3xl;
+}

@@ -16,8 +16,40 @@ export const GeneralContextProvider = ({ children }) => {
   const [boards, setBoards] = useState(null);
   const [currentBoard, setCurrentBoard] = useState(null);
 
-  const getCurrentBoard = async (user) => {
-    const docuRef = doc(firebaseFirestore, "users", user);
+  /* Adds a new board */
+  const addBoard = async (user) => {
+    const docuRef = collection(firebaseFirestore, "users", user, "boards");
+    await addDoc(docuRef, {
+      board_title: "New board",
+      board_data: {
+        tasks: {
+          1: { id: 1, content: "New item" },
+        },
+        columns: {
+          "column-1": {
+            id: "column-1",
+            title: "New column",
+            taskIds: [1],
+          },
+        },
+        columnOrder: ["column-1"],
+      },
+    });
+  };
+
+  /* Gets all the boards of the logged user */
+  const getBoards = async (user) => {
+    const collRef = collection(firebaseFirestore, "users", user, "boards");
+    const initialData = await getDocs(collRef);
+    const finalData = initialData.docs.map((doc) => ({
+      board_id: doc.id,
+      ...doc.data(),
+    }));
+    setBoards(finalData);
+  };
+
+  const getCurrentBoard = async (user, board) => {
+    const docuRef = doc(firebaseFirestore, "users", user, "boards", board);
     const initialData = await getDoc(docuRef);
     const finalData = initialData.data();
     setCurrentBoard(finalData);
@@ -71,8 +103,10 @@ export const GeneralContextProvider = ({ children }) => {
   return (
     <GeneralContext.Provider
       value={{
+        addBoard,
         boards,
         setBoards,
+        getBoards,
         currentBoard,
         setCurrentBoard,
         getCurrentBoard,

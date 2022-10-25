@@ -5,6 +5,8 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { UserAuth } from "../../context/AuthContext";
 import { GeneralState } from "../../context/GeneralContext";
 
+import Aside from "../../components/Aside";
+
 const Column = dynamic(() => import("../../components/Column"), { ssr: false });
 
 const reorderColumnList = (sourceCol, startIndex, endIndex) => {
@@ -21,11 +23,13 @@ const reorderColumnList = (sourceCol, startIndex, endIndex) => {
 };
 
 const index = () => {
+  const [boardsList, setBoardsList] = useState(null);
   const [boardData, setBoardData] = useState(null);
 
   /* Context functions */
   const { user } = UserAuth();
-  const { getCurrentBoard, currentBoard, updateBoard } = GeneralState();
+  const { boards, getBoards, getCurrentBoard, currentBoard, updateBoard } =
+    GeneralState();
 
   const onDragEnd = (result) => {
     const { destination, source } = result;
@@ -105,10 +109,18 @@ const index = () => {
     }
   }, [currentBoard]);
 
+  /* Once the boards are called sets the state with them */
+  useEffect(() => {
+    if (boards !== null) {
+      setBoardsList(boards);
+    }
+  }, [boards]);
+
+  /* When the user is logged gets the boards */
   useEffect(() => {
     if (user !== null) {
       const fetchData = async () => {
-        await getCurrentBoard(user.email);
+        await getBoards(user.email);
       };
 
       fetchData().catch(console.error);
@@ -116,22 +128,33 @@ const index = () => {
   }, [user]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <section className="w-full">
-        <div className="grid grid-flow-col gap-x-4 px-8 md:px-16 pt-16 w-full overflow-x-scroll">
-          {boardData?.columnOrder?.map((columnId) => {
-            const column = boardData.columns[columnId];
-            const items = column.taskIds.map(
-              (taskId) => boardData.tasks[taskId]
-            );
+    <main className="flex h-screen">
+      <Aside boardList={boardsList} />
+      {currentBoard ? (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <section className="w-full h-full">
+            <div className="grid grid-flow-col gap-x-4 justify-start items-start px-8 md:px-16 pt-16 w-full h-full overflow-x-scroll">
+              {boardData?.columnOrder?.map((columnId) => {
+                const column = boardData.columns[columnId];
+                const items = column.taskIds.map(
+                  (taskId) => boardData.tasks[taskId]
+                );
 
-            return (
-              <Column key={column.id} columnData={column} itemsData={items} />
-            );
-          })}
-        </div>
-      </section>
-    </DragDropContext>
+                return (
+                  <Column
+                    key={column.id}
+                    columnData={column}
+                    itemsData={items}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        </DragDropContext>
+      ) : (
+        "Cargando"
+      )}
+    </main>
   );
 };
 
