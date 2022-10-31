@@ -15,9 +15,21 @@
 }
 
 .item_container {
-  @apply bg-slate-800 rounded-lg w-full px-2 py-1;
+  @apply flex justify-between items-center bg-slate-800 rounded-lg w-full px-2 py-1;
 }
 
 .item_text {
   @apply text-slate-50;
+}
+
+.item_input {
+  @apply bg-slate-800 border border-slate-50 rounded-md pl-2 pr-1;
+}
+
+.item_edit_button {
+  @apply opacity-0 hover:text-purple-300;
+}
+
+.item_container:hover .item_edit_button {
+  @apply opacity-100 transition-opacity duration-200 ease-in-out;
 }

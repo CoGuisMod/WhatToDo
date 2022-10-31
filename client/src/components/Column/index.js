@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import Style from "./Column.module.css";
+import { FaEdit } from "react-icons/fa";
 
 const index = ({ columnData, itemsData }) => {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const editItem = (index, id, content) => {
+    itemsData[index].content = content;
+    console.log(itemsData[index]);
+  };
+
   return (
     <div className={Style.column_container}>
       {/* Column title */}
@@ -29,7 +37,26 @@ const index = ({ columnData, itemsData }) => {
                     {...draggableProvided.dragHandleProps}
                     className={Style.item_container}
                   >
-                    <p className={Style.item_text}>{item.content}</p>
+                    <p className={Style.item_text}>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          defaultValue={item.content}
+                          onChange={(e) =>
+                            editItem(index, item.id, e.target.value)
+                          }
+                          className={Style.item_input}
+                        />
+                      ) : (
+                        item.content
+                      )}
+                    </p>
+                    <div
+                      onClick={() => setIsEditing(!isEditing)}
+                      className={Style.item_edit_button}
+                    >
+                      <FaEdit />
+                    </div>
                   </div>
                 )}
               </Draggable>
