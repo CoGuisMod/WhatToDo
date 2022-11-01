@@ -131,9 +131,12 @@ const index = () => {
     <main className="flex h-screen">
       <Aside boardList={boardsList} />
       {currentBoard ? (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <section className="w-full h-full">
-            <div className="grid grid-flow-col gap-x-4 justify-start items-start px-8 md:px-16 pt-16 w-full h-full overflow-x-scroll">
+        <section className="w-full h-full px-4 md:px-10 pt-16">
+          <div className="">
+            <h2 className="text-2xl">{currentBoard.board_title}</h2>
+          </div>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className="grid grid-flow-col gap-x-4 justify-start items-start w-full h-full mt-4 overflow-x-scroll">
               {boardData?.columnOrder?.map((columnId) => {
                 const column = boardData.columns[columnId];
                 const items = column.taskIds.map(
@@ -149,8 +152,8 @@ const index = () => {
                 );
               })}
             </div>
-          </section>
-        </DragDropContext>
+          </DragDropContext>
+        </section>
       ) : (
         "Cargando"
       )}

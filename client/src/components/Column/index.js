@@ -3,13 +3,33 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import Style from "./Column.module.css";
 import { FaEdit } from "react-icons/fa";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const index = ({ columnData, itemsData }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
 
   const editItem = (index, id, content) => {
     itemsData[index].content = content;
     console.log(itemsData[index]);
+  };
+
+  const toggleEdit = (id) => {
+    if (isEditing === false) {
+      setIsEditing(true);
+      setEditingItem(id);
+      return;
+    }
+
+    if (isEditing === true) {
+      setIsEditing(false);
+      setEditingItem(null);
+      return;
+    }
+  };
+
+  const showOptions = () => {
+    console.log("Show options");
   };
 
   return (
@@ -17,6 +37,9 @@ const index = ({ columnData, itemsData }) => {
       {/* Column title */}
       <div className={Style.column_title_container}>
         <span className={Style.column_title_text}>{columnData.title}</span>
+        <div className={Style.column_options} onClick={() => showOptions()}>
+          <HiDotsHorizontal />
+        </div>
       </div>
 
       {/* Droppable Column area */}
@@ -38,7 +61,7 @@ const index = ({ columnData, itemsData }) => {
                     className={Style.item_container}
                   >
                     <p className={Style.item_text}>
-                      {isEditing ? (
+                      {isEditing && editingItem === item.id ? (
                         <input
                           type="text"
                           defaultValue={item.content}
@@ -52,7 +75,7 @@ const index = ({ columnData, itemsData }) => {
                       )}
                     </p>
                     <div
-                      onClick={() => setIsEditing(!isEditing)}
+                      onClick={() => toggleEdit(item.id)}
                       className={Style.item_edit_button}
                     >
                       <FaEdit />

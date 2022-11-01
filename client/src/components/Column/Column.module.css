@@ -1,18 +1,30 @@
+/* Column styles */
+
 .column_container {
   @apply border border-slate-50 rounded-xl w-80 overflow-hidden;
 }
 
 .column_title_container {
-  @apply bg-slate-50 text-center px-2 py-1;
+  @apply flex justify-between items-center bg-slate-50 px-2 py-1;
 }
 
 .column_title_text {
   @apply font-semibold text-slate-900;
 }
 
+.column_options {
+  @apply opacity-0 text-slate-900 cursor-pointer;
+}
+
+.column_container:hover .column_options {
+  @apply opacity-100 transition-opacity duration-200 ease-in-out;
+}
+
 .column_items_container {
   @apply flex flex-col gap-y-3 h-full p-4;
 }
+
+/* Item styles */
 
 .item_container {
   @apply flex justify-between items-center bg-slate-800 rounded-lg w-full px-2 py-1;
