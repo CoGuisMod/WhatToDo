@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+
 import { DragDropContext } from "react-beautiful-dnd";
 
 import { UserAuth } from "../../context/AuthContext";
 import { GeneralState } from "../../context/GeneralContext";
 
 import Aside from "../../components/Aside";
+
+import { BsGearFill } from "react-icons/bs";
 
 const Column = dynamic(() => import("../../components/Column"), { ssr: false });
 
@@ -97,6 +100,8 @@ const index = () => {
     setBoardData(newData);
   };
 
+  const showBoardOptions = () => {};
+
   useEffect(() => {
     if (boardData !== null && boardData !== currentBoard.board_data) {
       updateBoard(user.email, boardData);
@@ -131,9 +136,15 @@ const index = () => {
     <main className="flex h-screen">
       <Aside boardList={boardsList} />
       {currentBoard ? (
-        <section className="w-full h-full px-4 md:px-10 pt-16">
-          <div className="">
+        <section className="flex flex-col w-full h-full px-4 md:px-10 pt-16">
+          <div className="flex justify-between items-center">
             <h2 className="text-2xl">{currentBoard.board_title}</h2>
+            <div
+              onClick={() => showBoardOptions()}
+              className="text-xl hover:text-slate-50/80 transition-colors duration-200 ease-in-out cursor-pointer"
+            >
+              <BsGearFill />
+            </div>
           </div>
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="grid grid-flow-col gap-x-4 justify-start items-start w-full h-full mt-4 overflow-x-scroll">

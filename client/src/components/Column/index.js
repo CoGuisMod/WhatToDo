@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import Style from "./Column.module.css";
@@ -8,6 +8,13 @@ import { HiDotsHorizontal } from "react-icons/hi";
 const index = ({ columnData, itemsData }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [isEditingColumnTitle, setIsEditingColumnTitle] = useState(false);
+  const [isEditingBoardTitle, setIsEditingBoardTitle] = useState(false);
+
+  const editColumn = (newTitle) => {
+    columnData.title = newTitle;
+    console.log(columnData.title);
+  };
 
   const editItem = (index, id, content) => {
     itemsData[index].content = content;
@@ -32,14 +39,38 @@ const index = ({ columnData, itemsData }) => {
     console.log("Show options");
   };
 
+  useEffect(() => {
+    console.log(columnData);
+  }, [columnData]);
+
   return (
     <div className={Style.column_container}>
       {/* Column title */}
       <div className={Style.column_title_container}>
-        <span className={Style.column_title_text}>{columnData.title}</span>
-        <div className={Style.column_options} onClick={() => showOptions()}>
-          <HiDotsHorizontal />
-        </div>
+        {isEditingColumnTitle ? (
+          <input
+            type="text"
+            defaultValue={columnData.title}
+            onChange={(e) => editColumn(e.target.value)}
+            onKeyUp={(e) =>
+              e.key === "Enter" ? setIsEditingColumnTitle(false) : null
+            }
+            autoFocus
+            className={Style.column_title_input}
+          />
+        ) : (
+          <span
+            onClick={() => setIsEditingColumnTitle(true)}
+            className={Style.column_title_text}
+          >
+            {columnData.title}
+          </span>
+        )}
+
+        <HiDotsHorizontal
+          className={Style.column_options}
+          onClick={() => showOptions()}
+        />
       </div>
 
       {/* Droppable Column area */}
@@ -68,18 +99,20 @@ const index = ({ columnData, itemsData }) => {
                           onChange={(e) =>
                             editItem(index, item.id, e.target.value)
                           }
+                          onKeyUp={(e) =>
+                            e.key === "Enter" ? toggleEdit(item.id) : null
+                          }
+                          autoFocus
                           className={Style.item_input}
                         />
                       ) : (
                         item.content
                       )}
                     </p>
-                    <div
+                    <FaEdit
                       onClick={() => toggleEdit(item.id)}
                       className={Style.item_edit_button}
-                    >
-                      <FaEdit />
-                    </div>
+                    />
                   </div>
                 )}
               </Draggable>
