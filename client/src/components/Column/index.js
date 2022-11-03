@@ -11,6 +11,8 @@ const index = ({ columnData, itemsData }) => {
   const [isEditingColumnTitle, setIsEditingColumnTitle] = useState(false);
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState(false);
 
+  const [showColumnOptions, setShowColumnOptions] = useState(false);
+
   const editColumn = (newTitle) => {
     columnData.title = newTitle;
     console.log(columnData.title);
@@ -35,12 +37,8 @@ const index = ({ columnData, itemsData }) => {
     }
   };
 
-  const showOptions = () => {
-    console.log("Show options");
-  };
-
   useEffect(() => {
-    console.log(columnData);
+    console.log("Ha cambiado");
   }, [columnData]);
 
   return (
@@ -53,7 +51,9 @@ const index = ({ columnData, itemsData }) => {
             defaultValue={columnData.title}
             onChange={(e) => editColumn(e.target.value)}
             onKeyUp={(e) =>
-              e.key === "Enter" ? setIsEditingColumnTitle(false) : null
+              e.key === "Enter" || e.key === "Escape"
+                ? setIsEditingColumnTitle(false)
+                : null
             }
             autoFocus
             className={Style.column_title_input}
@@ -67,10 +67,30 @@ const index = ({ columnData, itemsData }) => {
           </span>
         )}
 
-        <HiDotsHorizontal
-          className={Style.column_options}
-          onClick={() => showOptions()}
-        />
+        <div className="relative">
+          <HiDotsHorizontal
+            className={Style.column_options}
+            onClick={() => setShowColumnOptions(!showColumnOptions)}
+          />
+          <ul
+            className={
+              showColumnOptions
+                ? Style.column_options_shown
+                : Style.column_options_hidden
+            }
+          >
+            <li
+              onClick={() => {
+                setIsEditingColumnTitle(true);
+                setShowColumnOptions(false);
+              }}
+              className={Style.column_option_item}
+            >
+              Rename column
+            </li>
+            <li className={Style.column_option_item}>Delete column</li>
+          </ul>
+        </div>
       </div>
 
       {/* Droppable Column area */}
@@ -100,7 +120,9 @@ const index = ({ columnData, itemsData }) => {
                             editItem(index, item.id, e.target.value)
                           }
                           onKeyUp={(e) =>
-                            e.key === "Enter" ? toggleEdit(item.id) : null
+                            e.key === "Enter" || e.key === "Escape"
+                              ? toggleEdit(item.id)
+                              : null
                           }
                           autoFocus
                           className={Style.item_input}

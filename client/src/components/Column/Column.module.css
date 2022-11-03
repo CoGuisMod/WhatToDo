@@ -1,11 +1,11 @@
 /* Column styles */
 
 .column_container {
-  @apply border border-slate-50 rounded-xl w-80 overflow-hidden;
+  @apply border border-slate-50 rounded-xl w-80;
 }
 
 .column_title_container {
-  @apply flex justify-between items-center gap-4 bg-slate-50 px-2 py-1;
+  @apply flex justify-between items-center gap-4 bg-slate-50 rounded-t-lg px-2 py-1;
 }
 
 .column_title_text {
@@ -18,6 +18,23 @@
 
 .column_options {
   @apply opacity-0 text-lg text-slate-900 cursor-pointer;
+}
+
+.column_options_hidden {
+  @apply hidden;
+}
+
+.column_options_shown {
+  display: unset;
+  @apply absolute top-0 -right-40 bg-slate-50 rounded-md text-slate-900;
+}
+
+.column_option_item {
+  @apply px-2 py-1 cursor-pointer;
+}
+
+.column_option_item:hover {
+  @apply bg-slate-900/5;
 }
 
 .column_container:hover .column_options {
