@@ -33,15 +33,22 @@ const index = () => {
         <div className={Style.navbar_auth_links}>
           {user ? (
             /* If the user IS logged code section */
-            <button onClick={logOutButton}>Log out</button>
+            <>
+              <Link href="/workspace">
+                <span className={Style.navbar_cta_link}>Workspace</span>
+              </Link>
+              <button onClick={logOutButton} className={Style.navbar_link}>
+                Log out
+              </button>
+            </>
           ) : (
             /* If the user IS NOT logged code section */
             <>
               <Link href="/login">
-                <span className={Style.navbar_login_link}>Sign in</span>
+                <span className={Style.navbar_link}>Sign in</span>
               </Link>
               <Link href="/signup">
-                <span className={Style.navbar_signup_link}>Sign up</span>
+                <span className={Style.navbar_cta_link}>Sign up</span>
               </Link>
             </>
           )}

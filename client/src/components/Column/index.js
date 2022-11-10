@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import Style from "./Column.module.css";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPlus } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 
 const index = ({ columnData, itemsData }) => {
@@ -12,6 +12,13 @@ const index = ({ columnData, itemsData }) => {
   const [isEditingBoardTitle, setIsEditingBoardTitle] = useState(false);
 
   const [showColumnOptions, setShowColumnOptions] = useState(false);
+
+  const addItem = () => {
+    const newItemId = columnData.taskIds.length + 1;
+    itemsData.push({ id: newItemId, content: "New item" });
+    columnData.taskIds.push(newItemId);
+    console.log(itemsData);
+  };
 
   const editColumn = (newTitle) => {
     columnData.title = newTitle;
@@ -38,6 +45,8 @@ const index = ({ columnData, itemsData }) => {
   };
 
   useEffect(() => {
+    console.log(columnData);
+    console.log(itemsData);
     console.log("Ha cambiado");
   }, [columnData]);
 
@@ -139,6 +148,12 @@ const index = ({ columnData, itemsData }) => {
                 )}
               </Draggable>
             ))}
+            <div
+              onClick={() => addItem()}
+              className="flex justify-center items-center px-8 py-1"
+            >
+              <FaPlus />
+            </div>
             {droppableProvided.placeholder}
           </div>
         )}
