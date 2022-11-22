@@ -166,7 +166,16 @@ const index = () => {
           </DragDropContext>
         </section>
       ) : (
-        "Cargando"
+        <section className="flex flex-col w-full h-full px-4 md:px-10 pt-16">
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl">
+              Hey! {user?.first_name}, you got something to do?
+            </h2>
+            <div className="text-xl hover:text-slate-50/80 transition-colors duration-200 ease-in-out cursor-pointer">
+              <BsGearFill />
+            </div>
+          </div>
+        </section>
       )}
     </main>
   );
